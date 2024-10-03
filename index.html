@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task List with Alerts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            color: #4A90E2;
+            text-shadow: 1px 1px 2px #ccc;
+        }
+
+        #taskInput {
+            padding: 10px;
+            width: 300px;
+            margin: 10px 0;
+            border: 2px solid #4A90E2;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        #addTaskButton {
+            padding: 10px 15px;
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #addTaskButton:hover {
+            background-color: #357ABD;
+        }
+
+        #taskList {
+            list-style-type: none;
+            padding: 0;
+            width: 300px;
+            margin-top: 20px;
+        }
+
+        #taskList li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: white;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #taskList button {
+            background-color: #D9534F;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        #taskList button:hover {
+            background-color: #C9302C;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>My Task List</h1>
+    <input type="text" id="taskInput" placeholder="Enter a new task" />
+    <button id="addTaskButton">Add Task</button>
+    <ul id="taskList"></ul>
+
+    <script>
+        let tasks = [];  
+
+        function displayTasks() {
+            const taskList = document.getElementById('taskList');
+            taskList.innerHTML = ''; 
+
+            tasks.forEach((task, index) => {
+                const listItem = document.createElement('li');
+                listItem.textContent = task;
+
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Remove';
+                removeButton.onclick = () => removeTask(index); 
+
+                listItem.appendChild(removeButton);
+                taskList.appendChild(listItem);
+            });
+        }
+
+        function showNotification(message) {
+            alert(message); 
+        }
+
+        function addTask() {
+            const taskInput = document.getElementById('taskInput');
+            const newTask = taskInput.value.trim(); 
+
+            if (newTask) { 
+                if (tasks.includes(newTask)) {
+                    showNotification('This task already exists. Please enter a different task.'); 
+                } else {
+                    tasks.push(newTask); 
+                    taskInput.value = ''; 
+                    displayTasks(); 
+                }
+            } else {
+                showNotification('Please enter a task.'); 
+            }
+        }
+
+        function removeTask(index) {
+            tasks.splice(index, 1); 
+            displayTasks(); 
+        }
+
+        document.getElementById('addTaskButton').addEventListener('click', addTask);
+    </script>
+
+</body>
+</html>
